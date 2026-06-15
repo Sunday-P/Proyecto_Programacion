@@ -52,7 +52,17 @@ public class Accesorio extends Producto {
     //metodo alquilar vacio porque no se pueden alquilar accesorios, solo venderlos
     @Override
     public void alquilar() throws StockInsuficienteException {
-        throw new UnsupportedOperationException("Los accesorios no se pueden alquilar, solo vender.");
+        if (getStock() > 0) {
+            setStock(getStock() - 1); // Bajamos el stock de forma segura
+        
+            // CORRECCIÓN: Solo cambiamos el estado si ya no quedan unidades
+            if (getStock() == 0) {
+                setEstado(EstadoProducto.ALQUILADO); 
+        }
+        System.out.println("Alquiler procesado exitosamente: " + getTitulo());
+    } else {
+        throw new StockInsuficienteException("No hay ejemplares disponibles para alquilar: " + getTitulo());
     }
+}
 
 }

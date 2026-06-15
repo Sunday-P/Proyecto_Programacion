@@ -34,8 +34,6 @@ public class Cliente extends Persona {
     } 
 
 
-
-
     //Metodos
     @Override
     public void mostrarInfo() {
@@ -47,7 +45,7 @@ public class Cliente extends Persona {
     }
 
     public void alquilerProducto(Producto p) throws StockInsuficienteException { //throws indica que este metodo lanza una excepcion de tipo StockInsuficienteException
-       
+
         //verificamos el stock 
         if (p.getStock() > 0) { 
             this.saldo -= p.getPrecio(); 
