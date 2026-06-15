@@ -11,7 +11,7 @@ public abstract class Producto implements Serializable, IVendible {
     private double precio;
     private int stock;
     
-    //private EstadoProducto estado; //solo puede tomar valores definidos en el enum EstadoProducto
+    private EstadoProducto estado; //solo puede tomar valores definidos en el enum EstadoProducto
 
 
     //Constructor
@@ -20,6 +20,7 @@ public abstract class Producto implements Serializable, IVendible {
         this.titulo = titulo;
         this.precio = precio;
         this.stock = stock;
+        this.estado = EstadoProducto.DISPONIBLE; //Inicializamos el estado del producto como disponible
     }
 
     //Metodos getter y setter
@@ -52,16 +53,23 @@ public abstract class Producto implements Serializable, IVendible {
         this.stock = stock;
     }
 
-    //Metodos
-    public void mostrarInfo(){
-        System.out.println("---Informacion del Producto---"); 
-        System.out.println("ID: " + id);
-        System.out.println("Título: " + titulo);
-        System.out.println("Precio: " + precio);
-        System.out.println("Stock: " + stock);
+    public EstadoProducto getEstado() {
+        return estado;
     }
 
-    public String getCategoria(){
-        return "Producto";
+    public void setEstado(EstadoProducto estado) {
+        this.estado = estado;
     }
+
+    //Metodos
+    public abstract String getCategoria(); //Metodo abstracto para dsp
+
+    public void mostrarInfo(){
+        System.out.println("ID: " + id + " | Categoría: " + getCategoria());
+        System.out.println("Título: " + titulo + " | Precio: $" + precio);
+        System.out.println("Precio: " + precio);
+        System.out.println("Stock: " + stock + " | Estado: " + estado);
+    }
+
+    
 }
