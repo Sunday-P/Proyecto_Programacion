@@ -2,7 +2,7 @@ package ProyectoTiendaVideoJuegos;
 import java.io.Serializable;
 
 //Agregamos abstract a la clase Persona
-public abstract class Persona implements Serializable {
+public abstract class Persona implements Serializable, Comparable<Persona> {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,6 +47,10 @@ public abstract class Persona implements Serializable {
     }
 
     //Comparar y equala
-    
+    @Override
+    public int compareTo(Persona otra) {
+        //Orden natural por apelido
+        return this.apellido.compareToIgnoreCase(otra.getApellido());
+    }
 
 }
