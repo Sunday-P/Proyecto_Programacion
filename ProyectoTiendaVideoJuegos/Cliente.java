@@ -1,3 +1,4 @@
+package ProyectoTiendaVideoJuegos;
 
 public class Cliente extends Persona {
 

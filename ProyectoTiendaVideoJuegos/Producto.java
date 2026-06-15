@@ -1,7 +1,8 @@
+package ProyectoTiendaVideoJuegos;
 import java.io.Serializable;
 
 //Agregamos abstract a la clase Producto
-public class Producto implements Serializable {
+public abstract class Producto implements Serializable, IVendible {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,9 +54,14 @@ public class Producto implements Serializable {
 
     //Metodos
     public void mostrarInfo(){
+        System.out.println("---Informacion del Producto---"); 
         System.out.println("ID: " + id);
         System.out.println("Título: " + titulo);
         System.out.println("Precio: " + precio);
         System.out.println("Stock: " + stock);
+    }
+
+    public String getCategoria(){
+        return "Producto";
     }
 }

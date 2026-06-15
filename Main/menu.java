@@ -1,5 +1,6 @@
-import ProyectoTiendaVideoJuegos;
+package Main;
+//import ProyectoTiendaVideoJuegos.*;
 
-public class main {
+public class menu {
     
 }

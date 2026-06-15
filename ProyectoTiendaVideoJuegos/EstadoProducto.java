@@ -1,3 +1,4 @@
+package ProyectoTiendaVideoJuegos;
 
 
 public enum EstadoProducto {

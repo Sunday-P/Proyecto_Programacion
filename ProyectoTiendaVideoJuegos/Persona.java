@@ -1,3 +1,4 @@
+package ProyectoTiendaVideoJuegos;
 import java.io.Serializable;
 
 //Agregamos abstract a la clase Persona
