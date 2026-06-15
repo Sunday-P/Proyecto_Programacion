@@ -43,34 +43,16 @@ public class Juego extends Producto{
     public String getCategoria(){
         return "Juego";
     }
-    
+    @Override
     public void vender() throws StockInsuficienteException {
-        if (getStock() > 0) {
-            setStock(getStock() - 1);
-
-            if (getStock() == 0) {
-            setEstado(EstadoProducto.SIN_STOCK);
-            }
-
-            System.out.println("Venta procesada: " + getTitulo());
-        } else {
-            throw new StockInsuficienteException("No se puede vender. Stock agotado para el producto: " + getTitulo());
-        }
-    }
-
+        super.vender();
+        System.out.println("Venta de Juego Realizada");
+        System.out.println("Titulo: " + getTitulo());
+    }   
+    @Override
     public void alquilar() throws StockInsuficienteException {
-        if (getStock() > 0) {
-            setStock(getStock() - 1);
-            setEstado(EstadoProducto.ALQUILADO);
-
-            if (getStock() == 0) {
-                setEstado(EstadoProducto.SIN_STOCK);
-            }
-
-            System.out.println("Alquiler procesado: " + getTitulo());
-        } else {
-            throw new StockInsuficienteException("No se puede alquilar. Stock agotado para el producto: " + getTitulo());
-        }
+        super.alquilar();
+        System.out.println("Juego Alquilado: " + getTitulo());
     }
 
 }

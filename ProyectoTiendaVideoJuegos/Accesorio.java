@@ -45,20 +45,10 @@ public class Accesorio extends Producto {
 
     @Override
     public void vender() throws StockInsuficienteException {
-        if (getStock() > 0) {
-            setStock(getStock() - 1);
-
-            if (getStock() == 0) {
-            setEstado(EstadoProducto.SIN_STOCK);
-            }
-
-            System.out.println("Venta procesada: " + getTitulo());
-        } else {
-            throw new StockInsuficienteException("No se puede vender. Stock agotado para el producto: " + getTitulo());
-        }
-
+        super.vender();
+        System.out.println("Venta del Accesorio Realizada");
+        System.out.println("Accesorio: " + getTitulo());
     }
-
     //metodo alquilar vacio porque no se pueden alquilar accesorios, solo venderlos
     @Override
     public void alquilar() throws StockInsuficienteException {

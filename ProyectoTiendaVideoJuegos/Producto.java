@@ -71,5 +71,31 @@ public abstract class Producto implements Serializable, IVendible {
         System.out.println("Stock: " + stock + " | Estado: " + estado);
     }
 
+        public void vender() throws StockInsuficienteException {
+        if (getStock() > 0) {
+            setStock(getStock() - 1);
+
+            if (getStock() == 0) {
+            setEstado(EstadoProducto.SIN_STOCK);
+            }
+
+        } else {
+            throw new StockInsuficienteException("No se puede vender. Stock agotado para el producto: " + getTitulo());
+        }
+    }
+
+    public void alquilar() throws StockInsuficienteException {
+        if (getStock() > 0) {
+            setStock(getStock() - 1);
+            setEstado(EstadoProducto.ALQUILADO);
+
+            if (getStock() == 0) {
+                setEstado(EstadoProducto.SIN_STOCK);
+            }
+
+        } else {
+            throw new StockInsuficienteException("No se puede alquilar. Stock agotado para el producto: " + getTitulo());
+        }
     
+    }
 }
