@@ -43,11 +43,26 @@ public class Accesorio extends Producto {
         return "Accesorio";
     }
 
-    public void vender(){
+    @Override
+    public void vender() throws StockInsuficienteException {
+        if (getStock() > 0) {
+            setStock(getStock() - 1);
+
+            if (getStock() == 0) {
+            setEstado(EstadoProducto.SIN_STOCK);
+            }
+
+            System.out.println("Venta procesada: " + getTitulo());
+        } else {
+            throw new StockInsuficienteException("No se puede vender. Stock agotado para el producto: " + getTitulo());
+        }
 
     }
 
-    public void alquilar(){
-
+    //metodo alquilar vacio porque no se pueden alquilar accesorios, solo venderlos
+    @Override
+    public void alquilar() throws StockInsuficienteException {
+        throw new UnsupportedOperationException("Los accesorios no se pueden alquilar, solo vender.");
     }
+
 }

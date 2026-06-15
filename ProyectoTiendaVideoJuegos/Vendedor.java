@@ -2,6 +2,7 @@ package ProyectoTiendaVideoJuegos;
 
 public class Vendedor extends Persona{
 
+    private static final long serialVersionUID = 1L; //Persona es serializable, por lo que Vendedor también debe serlo
     private int legajo;
 
     //Constructor con super
@@ -26,4 +27,7 @@ public class Vendedor extends Persona{
         System.out.println("Vendedor: " + getNombre() + " " + getApellido() + " | Legajo: " + legajo);
     }
 
+    public void registrarProducto(Producto p){
+        System.out.println("Vendedor " + getNombre() + "registró el producto: " + p.getTitulo());
+    }
 }

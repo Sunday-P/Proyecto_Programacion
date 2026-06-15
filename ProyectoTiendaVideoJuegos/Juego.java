@@ -44,12 +44,33 @@ public class Juego extends Producto{
         return "Juego";
     }
     
-    public void vender(){
+    public void vender() throws StockInsuficienteException {
+        if (getStock() > 0) {
+            setStock(getStock() - 1);
 
+            if (getStock() == 0) {
+            setEstado(EstadoProducto.SIN_STOCK);
+            }
+
+            System.out.println("Venta procesada: " + getTitulo());
+        } else {
+            throw new StockInsuficienteException("No se puede vender. Stock agotado para el producto: " + getTitulo());
+        }
     }
 
-    public void alquilar(){
+    public void alquilar() throws StockInsuficienteException {
+        if (getStock() > 0) {
+            setStock(getStock() - 1);
+            setEstado(EstadoProducto.ALQUILADO);
 
+            if (getStock() == 0) {
+                setEstado(EstadoProducto.SIN_STOCK);
+            }
+
+            System.out.println("Alquiler procesado: " + getTitulo());
+        } else {
+            throw new StockInsuficienteException("No se puede alquilar. Stock agotado para el producto: " + getTitulo());
+        }
     }
 
 }

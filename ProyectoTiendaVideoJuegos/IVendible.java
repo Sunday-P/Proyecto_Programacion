@@ -2,7 +2,8 @@ package ProyectoTiendaVideoJuegos;
 
 public interface IVendible {
 
-    void vender();
-    void alquilar();
+    void vender() throws StockInsuficienteException;
+
+    void alquilar() throws StockInsuficienteException;
 
 }
