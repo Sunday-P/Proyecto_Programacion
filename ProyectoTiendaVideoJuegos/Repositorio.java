@@ -33,7 +33,7 @@ public class Repositorio<O> implements IRepositorio<O>{
     public List<O> consultar() {
 
         if (!archivo.exists()) { //verificamos que el archivo exista, si no existe saldra el print informando que no existe
-            System.out.println("No existe ningun archivo");
+            System.out.println("No se encontro el archivo. Se iniciara con una lista vacia");
         }
 
         try (//creamos el objeto para leer los objetos serializados
@@ -42,7 +42,7 @@ public class Repositorio<O> implements IRepositorio<O>{
             return (List<O>) ois.readObject(); //devuelve la lista guardada
 
         } catch ( IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.err.println("Error al leer el archivo: " + e.getMessage());
         }
         return new ArrayList<>();
     }
