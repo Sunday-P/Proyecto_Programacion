@@ -22,6 +22,17 @@ public class Tienda {
         return productos;
     }
 
+    public ArrayList<Persona> getListaPersonas(){
+        personas.values(); //obtiene los objetos persona y el constructor
+        return new ArrayList<>(personas.values()); //devuelve como una ArrayList
+    }
+
+    public void cargarPersonas(List<Persona> lista) {
+    if (lista != null) {
+        // Recorremos la lista cargada y usamos el DNI como clave del mapa [cite: 144].
+        lista.forEach(p -> personas.put(p.getDni(), p));
+    }
+    }
     public void registrarPersona(Persona p) {
         personas.put(p.getDni(), p);
     }
@@ -70,7 +81,6 @@ public class Tienda {
     
                 //.sorted() es una op usada para ordenar los elementos de una lista/coleccion segun un criterio definido por el programador.
     }
-
 
     public void ordenarCatalogoFisicamente() {
         //Usamos Collections.sort con un comparador externo

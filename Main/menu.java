@@ -1,6 +1,4 @@
 package Main;
-import java.io.File;
-import java.net.Socket;
 import java.util.List;
 import java.util.Scanner;
 import ProyectoTiendaVideoJuegos.*;
@@ -10,11 +8,12 @@ public class menu {
     private Scanner leer;
     private Tienda tienda;
     private Repositorio<Producto> repoProductos;
-    private Repositorio<Persona> repoPersonas;
+    private Repositorio<Persona> repoPersonas; //Para persisitir clientes
     
     public menu() {
         this.leer = new Scanner(System.in);
         this.tienda = new Tienda();
+        //Inicializamos los archivos fisicos
         this.repoProductos = new Repositorio<>("productos.dat");
         this.repoPersonas = new Repositorio<>("personas.dat");
     }
@@ -24,8 +23,12 @@ public class menu {
     public void iniciar(){
         int opcion = 0;
 
+        // REQUERIMIENTO: Cargar datos al iniciar
         List<Producto> cargaInicial = repoProductos.consultar();
         cargaInicial.forEach(p -> tienda.agregarProducto(p));
+
+        List<Persona> cargaClientes = repoPersonas.consultar();
+        cargaClientes.forEach(persona -> tienda.registrarPersona(persona));
 
         do {
             System.out.println("---Tienda de VideoJuegos JP---");
@@ -39,13 +42,14 @@ public class menu {
             System.out.println("------------------");
             System.out.print("Seleccione una Opción: ");
             
+
             if (leer.hasNextInt()){
                     opcion = leer.nextInt();
             } else{
                 System.out.println("Debe Ingresar una opcion valida");
+                leer.nextInt();
                 continue;
             }
-            leer.nextLine();
 
 
             switch (opcion) {
@@ -64,17 +68,20 @@ public class menu {
                 case 4:
                     System.out.println("---Registrar Cliente---");
                     registrarCliente();
+                    break;
                 case 5:
                     System.out.println("---Vender Producto---");
                     gestionOp(true);
+                    break;
                 case 6:
-                    System.out.println("---Catalogo ordenado por Titulos---");
-                    tienda.mostrarOrdenados();
+                    System.out.println(""); 
+                    tienda.mostrarOrdenados(); //Esto imprime un msj de Catalogo ordenado por titulo de la A a la Z
                     break;
                 case 7:
                     // REQUERIMIENTO: Guardar la lista completa antes de cerrar
                     // Se usa serialización (ObjectOutputStream) para volcar al disco.
                     repoProductos.guardar(tienda.getProductos());
+                    repoPersonas.guardar(tienda.getListaPersonas());
                     System.out.println("Datos persistidos en el archivo. ¡Hasta luego!");
                     break;
                 default:
@@ -86,30 +93,39 @@ public class menu {
     
     private void agregarProducto(){
         System.out.println("\n--- Nuevo Producto ---");
-        System.out.print("ID: "); int id = leer.nextInt(); leer.nextLine();
+        System.out.println("Tipo: 1. Juego | 2. Consola | 3. Accesorio");
+        int tipo = leer.nextInt(); leer.nextLine();
+
+        System.out.print("ID: "); int id = leer.nextInt(); leer.nextLine(); //leer es el scanner
         System.out.print("Título: "); String titulo = leer.nextLine();
         System.out.print("Precio: "); double precio = leer.nextDouble();
         System.out.print("Stock: "); int stock = leer.nextInt(); leer.nextLine();
 
-        System.out.println("Tipo: 1. Juego | 2. Consola | 3. Accesorio");
-        int tipo = leer.nextInt(); leer.nextLine();
+        
 
         Producto nuevo = null;
         switch (tipo) {
-            case 1 -> {
+            case 1: {
                 System.out.print("Plataforma: "); String plat = leer.nextLine();
                 System.out.print("Género: "); String gen = leer.nextLine();
                 nuevo = new Juego(id, titulo, precio, stock, plat, gen);
+                break;
             }
-            case 2 -> {
+            case 2: {
                 System.out.print("Marca: "); String marca = leer.nextLine();
                 System.out.print("Modelo: "); String mod = leer.nextLine();
                 nuevo = new Consola(id, titulo, precio, stock, marca, mod);
+                break;
             }
-            case 3 -> {
+            case 3:{
                 System.out.print("Tipo accesorio: "); String tAcc = leer.nextLine();
                 System.out.print("Compatible con: "); String comp = leer.nextLine();
                 nuevo = new Accesorio(id, titulo, precio, stock, tAcc, comp);
+                break;
+            }
+            default: {
+                System.out.println("Tipo inválido.");
+                break;
             }
         }
 
@@ -118,15 +134,19 @@ public class menu {
             System.out.println("Producto sumado al catálogo.");
         }
     }
+    
 
     public void gestionOp(boolean esVenta) {
         System.out.print("Ingrese DNI del cliente: ");
         int dni = leer.nextInt();
-        leer.nextLine();
+        leer.nextLine(); //limpia el buffer para que no se salte el proximo String
+
         
         Persona p = tienda.buscarCliente(dni); // Búsqueda rápida en el HashMap
         
-        if (p instanceof Cliente cliente) { // Verificamos el tipo de objeto 
+        if (p instanceof Cliente) { // Verificamos el tipo de objeto 
+            Cliente cliente = (Cliente) p; //Casteo manual, 'p' como CLiente
+
             System.out.print("Ingrese título del producto: ");
             String titulo = leer.nextLine();
             Producto prod = tienda.buscarProducto(titulo); // Búsqueda con Streams 
@@ -186,5 +206,12 @@ public class menu {
         tienda.registrarPersona(nuevo); 
 
         System.out.println("¡Cliente registrado con éxito en el sistema!");
+    }
+
+    public void cargarPersonas(List<Persona> lista) {
+    if (lista != null) {
+        // Recorremos la lista cargada y registramos cada persona en la tienda
+        lista.forEach(tienda::registrarPersona);
+    }
     }
 }
