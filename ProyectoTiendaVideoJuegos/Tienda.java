@@ -18,6 +18,10 @@ public class Tienda {
     }
 
     //Metodos de registro
+    public ArrayList<Producto> getProductos(){
+        return productos;
+    }
+
     public void registrarPersona(Persona p) {
         personas.put(p.getDni(), p);
     }
