@@ -38,7 +38,8 @@ public class menu {
             System.out.println("4. Registrar cliente");
             System.out.println("5. Vender Producto");
             System.out.println("6. Catalogo ordenado por Titulos");
-            System.out.println("7. Salir y Guardar");
+            System.out.println("7. Guardar");
+            System.out.println("8. Salir");
             System.out.println("------------------");
             System.out.print("Seleccione una Opción: ");
             
@@ -51,7 +52,7 @@ public class menu {
                 continue;
             }
 
-
+            
             switch (opcion) {
                 case 1:
                     System.out.println("---Agregar Producto---");
@@ -82,12 +83,15 @@ public class menu {
                     // Se usa serialización (ObjectOutputStream) para volcar al disco.
                     repoProductos.guardar(tienda.getProductos());
                     repoPersonas.guardar(tienda.getListaPersonas());
-                    System.out.println("Datos persistidos en el archivo. ¡Hasta luego!");
+                    System.out.println("Datos Guardados en el archivo");
+                    break;
+                case 8:
+                    System.out.println("¡Hasta Luego!");
                     break;
                 default:
                     System.out.println("Opción no válida.");
             }
-        } while (opcion != 7);
+        } while (opcion != 8);
         leer.close();
     }
     
@@ -100,8 +104,6 @@ public class menu {
         System.out.print("Título: "); String titulo = leer.nextLine();
         System.out.print("Precio: "); double precio = leer.nextDouble();
         System.out.print("Stock: "); int stock = leer.nextInt(); leer.nextLine();
-
-        
 
         Producto nuevo = null;
         switch (tipo) {
@@ -141,7 +143,6 @@ public class menu {
         int dni = leer.nextInt();
         leer.nextLine(); //limpia el buffer para que no se salte el proximo String
 
-        
         Persona p = tienda.buscarCliente(dni); // Búsqueda rápida en el HashMap
         
         if (p instanceof Cliente) { // Verificamos el tipo de objeto 

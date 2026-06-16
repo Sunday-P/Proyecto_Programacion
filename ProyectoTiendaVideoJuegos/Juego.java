@@ -46,9 +46,8 @@ public class Juego extends Producto{
     @Override
     public void vender() throws StockInsuficienteException {
         super.vender();
-        System.out.println("Venta de Juego Realizada");
-        System.out.println("Titulo: " + getTitulo());
-    }   
+    }
+
     @Override
     public void alquilar() throws StockInsuficienteException {
         super.alquilar();

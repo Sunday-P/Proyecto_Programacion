@@ -46,38 +46,41 @@ public class Cliente extends Persona {
 
     public void alquilerProducto(Producto p) throws StockInsuficienteException { //throws indica que este metodo lanza una excepcion de tipo StockInsuficienteException
 
-        //verificamos el stock 
-        if (p.getStock() > 0) { 
-            this.saldo -= p.getPrecio(); 
-            p.setStock(p.getStock() - 1); //Disminuimos el stock del producto
-            p.setEstado(EstadoProducto.ALQUILADO); //llamamos al enum
-            this.productosAlquilados.add(p); 
-
-            if (p.getStock() == 0) {
-            p.setEstado(EstadoProducto.SIN_STOCK);
-            }
-
-            System.out.println("Producto alquilado: " + p.getTitulo());
+        // 1. El cliente verifica su saldo
+        if (this.saldo >= p.getPrecio()) {
+        
+            // 2. Le pedimos al producto que intente alquilarse
+            p.alquilar();
+        
+            // 3. Si hubo stock, descontamos saldo y agregamos a la lista del cliente
+            this.saldo -= p.getPrecio();
+            this.productosAlquilados.add(p);
+        
+            System.out.println("Producto alquilado con éxito: " + p.getTitulo());
+            System.out.println("Saldo restante: $" + this.saldo);
+        
         } else {
-            throw new StockInsuficienteException("No hay stock disponible para el producto: " + p.getTitulo());
+         System.out.println("Saldo insuficiente para alquilar el producto.");
         }
-       
     }
 
     public void comprarProducto(Producto p) throws StockInsuficienteException {
-        if (p.getStock() > 0) {
-            this.saldo -= p.getPrecio(); 
-            p.setStock(p.getStock() - 1); 
-
-            if (p.getStock() == 0) {
-            p.setEstado(EstadoProducto.SIN_STOCK);
-            }
+        // 1. El cliente verifica su propio saldo
+        if (this.saldo >= p.getPrecio()) {
+        
+            // 2. Le pedimos al producto que intente venderse a sí mismo (él bajará su stock)
+            p.vender(); 
+        
+            // 3. Si p.vender() NO lanzó excepción, significa que había stock. Ahora descontamos el saldo.
+            this.saldo -= p.getPrecio();
             System.out.println("Compra Exitosa: " + p.getTitulo());
+            System.out.println("Saldo restante: $" + this.saldo);
+        
         } else {
-        throw new StockInsuficienteException("No hay stock para comprar " + p.getTitulo());
+            System.out.println("Saldo insuficiente para comprar el producto: " + p.getTitulo());
         }
     }
-
+    
     public void devolverProducto(Producto p) {  //no leva excepcion porque el cliente no puede devolver un producto no alquilado
         if (this.productosAlquilados.contains(p)) { 
             p.setStock(p.getStock() + 1); 

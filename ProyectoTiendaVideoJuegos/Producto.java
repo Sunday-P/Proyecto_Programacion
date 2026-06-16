@@ -1,6 +1,6 @@
 package ProyectoTiendaVideoJuegos;
 import java.io.Serializable;
-
+import ProyectoTiendaVideoJuegos.Cliente;
 //Agregamos abstract a la clase Producto
 public abstract class Producto implements Serializable, IVendible {
 
@@ -10,7 +10,7 @@ public abstract class Producto implements Serializable, IVendible {
     private String titulo;
     private double precio;
     private int stock;
-    
+    private Cliente Clientes;
     private EstadoProducto estado; //solo puede tomar valores definidos en el enum EstadoProducto
 
 
@@ -20,6 +20,7 @@ public abstract class Producto implements Serializable, IVendible {
         this.titulo = titulo;
         this.precio = precio;
         this.stock = stock;
+        this.Clientes = new Cliente(id, titulo, titulo, stock);
         this.estado = EstadoProducto.DISPONIBLE; //Inicializamos el estado del producto como disponible
     }
 
@@ -71,31 +72,33 @@ public abstract class Producto implements Serializable, IVendible {
         System.out.println("Stock: " + stock + " | Estado: " + estado);
     }
 
-        public void vender() throws StockInsuficienteException {
-        if (getStock() > 0) {
-            setStock(getStock() - 1);
-
-            if (getStock() == 0) {
-            setEstado(EstadoProducto.SIN_STOCK);
+    public void vender() throws StockInsuficienteException {
+        // El producto solo verifica su propio stock
+        if (this.stock > 0) {
+            this.stock--; // Restamos 1 al stock
+        
+            // Si al vender se quedó en 0, actualizamos su estado
+            if (this.stock == 0) {
+            this.estado = EstadoProducto.SIN_STOCK;
             }
-
         } else {
-            throw new StockInsuficienteException("No se puede vender. Stock agotado para el producto: " + getTitulo());
+            // Lanzamos la excepción para que viaje hacia arriba
+            throw new StockInsuficienteException("No hay stock para vender el producto: " + this.titulo);
         }
     }
 
     public void alquilar() throws StockInsuficienteException {
-        if (getStock() > 0) {
-            setStock(getStock() - 1);
-            setEstado(EstadoProducto.ALQUILADO);
-
-            if (getStock() == 0) {
-                setEstado(EstadoProducto.SIN_STOCK);
-            }
-
+        
+        if (this.stock > 0) {
+        this.stock--;
+        // En tu lógica, si se alquila pasa a estado alquilado (o sin stock si era el último)
+        if (this.stock == 0) {
+            this.estado = EstadoProducto.SIN_STOCK;
         } else {
-            throw new StockInsuficienteException("No se puede alquilar. Stock agotado para el producto: " + getTitulo());
+            this.estado = EstadoProducto.ALQUILADO;
         }
-    
+        } else {
+        throw new StockInsuficienteException("No hay stock para alquilar el producto: " + this.titulo);
+        }
     }
 }

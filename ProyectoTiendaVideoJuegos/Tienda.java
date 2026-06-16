@@ -10,7 +10,6 @@ public class Tienda {
     private ArrayList<Producto> productos; //Almacena los productos disponibles en la tienda
     private HashMap<Integer, Persona> personas;
 
-
     //Un constructor para inicializar la tienda con una lista de productos y un mapa de clientes
     public Tienda() {
         this.productos = new ArrayList<>();
