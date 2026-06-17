@@ -81,7 +81,7 @@ public class Cliente extends Persona {
         }
     }
     
-    public void devolverProducto(Producto p) {  //no leva excepcion porque el cliente no puede devolver un producto no alquilado
+    public void devolverProducto(Producto p) {  //no lleva excepcion porque el cliente no puede devolver un producto no alquilado
         if (this.productosAlquilados.contains(p)) { 
             p.setStock(p.getStock() + 1); 
             p.setEstado(EstadoProducto.DISPONIBLE);
