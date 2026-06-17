@@ -1,7 +1,9 @@
 package ProyectoTiendaVideoJuegos;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.Collections;   
 import java.util.Comparator;
@@ -87,6 +89,19 @@ public class Tienda {
         System.out.println("La lista interna de productos ha sido ordenada.");
     }
 
+//REQUERIMIENTO: Uso de HashSet para evitar duplicados
+//Devuelve un conjunto de clientes únicos con alquileres vigentes.
+
+    public Set<Persona> obtenerClientesActivos(){
+        Set<Persona> activos = new HashSet<>();
+        // Recorremos el HashMap y filtramos solo los Clientes con productos
+        personas.values().stream()
+                .filter(p -> p instanceof Cliente)
+                .map(p -> (Cliente) p)
+                .filter(c -> !c.getProductosAlquilados().isEmpty())
+                .forEach(activos::add); // El HashSet usa el equals() y hashCode() de Persona
+        return activos;
+}
 }
 
     

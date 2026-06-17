@@ -1,6 +1,8 @@
 package Main;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+
 import ProyectoTiendaVideoJuegos.*;
 
 public class menu {
@@ -39,9 +41,10 @@ public class menu {
             System.out.println("5. Mostrar Info del Cliente");
             System.out.println("6. Vender Producto");
             System.out.println("7. Devolver Producto");
-            System.out.println("8. Catalogo ordenado por Titulos");
-            System.out.println("9. Guardar");
-            System.out.println("10. Salir");
+            System.out.println("8. Clientes con Alquileres");
+            System.out.println("9. Catalogo ordenado por Titulos");
+            System.out.println("10. Guardar");
+            System.out.println("11. Salir");
             System.out.println("------------------");
             System.out.print("Seleccione una Opción: ");
             
@@ -87,28 +90,31 @@ public class menu {
                     devolviendoProducto();
                     break;
                 case 8:
+                    mostrarClientesConDeudas();
+                    break;
+                case 9:
                     System.out.println(""); 
                     tienda.mostrarOrdenados(); //Esto imprime un msj de Catalogo ordenado por titulo de la A a la Z
                     break;
-                case 9:
+                case 10:
                     // REQUERIMIENTO: Guardar la lista completa antes de cerrar
                     // Se usa serialización (ObjectOutputStream) para volcar al disco.
                     repoProductos.guardar(tienda.getProductos());
                     repoPersonas.guardar(tienda.getListaPersonas());
                     System.out.println("Datos Guardados en el archivo");
                     break;
-                case 10:
+                case 11:
                     System.out.println("¡Hasta Luego!");
                     break;
                 default:
                     System.out.println("Opción no válida.");
                     break;
             }
-            if (opcion!=10) { //El if es para que cuando eligamos salir, no te tire el print de "Presione ENTER..."
+            if (opcion!=11) { //El if es para que cuando eligamos salir, no te tire el print de "Presione ENTER..."
                 System.out.println("\nPresione ENTER para continuar...");
                 leer.nextLine();    
             }
-        } while (opcion != 10);
+        } while (opcion != 11);
         leer.close();
     }
     
@@ -277,5 +283,19 @@ public class menu {
         }else{
             System.out.println("Cliente no encontrado en el sistema.");
         }
+    }
+
+    public void mostrarClientesConDeudas() {
+        System.out.println("\n--- CLIENTES CON ALQUILERES ACTIVOS ---");
+
+        // Invocamos el método de Tienda que devuelve el HashSet 
+        Set<Persona> clientesUnicos = tienda.obtenerClientesActivos();
+
+        if (clientesUnicos.isEmpty()) {
+        System.out.println("No hay clientes con alquileres en este momento.");
+        } else {
+        // REQUERIMIENTO: Uso de referencia a método (::)
+        clientesUnicos.forEach(Persona::mostrarInfo);
+    }
     }
 }

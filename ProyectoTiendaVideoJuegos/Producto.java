@@ -1,6 +1,5 @@
 package ProyectoTiendaVideoJuegos;
 import java.io.Serializable;
-import ProyectoTiendaVideoJuegos.Cliente;
 //Agregamos abstract a la clase Producto
 public abstract class Producto implements Serializable, IVendible {
 
@@ -10,9 +9,7 @@ public abstract class Producto implements Serializable, IVendible {
     private String titulo;
     private double precio;
     private int stock;
-    private Cliente Clientes;
     private EstadoProducto estado; //solo puede tomar valores definidos en el enum EstadoProducto
-
 
     //Constructor
     public Producto(int id, String titulo, double precio, int stock) {
@@ -20,7 +17,6 @@ public abstract class Producto implements Serializable, IVendible {
         this.titulo = titulo;
         this.precio = precio;
         this.stock = stock;
-        this.Clientes = new Cliente(id, titulo, titulo, stock);
         this.estado = EstadoProducto.DISPONIBLE; //Inicializamos el estado del producto como disponible
     }
 
