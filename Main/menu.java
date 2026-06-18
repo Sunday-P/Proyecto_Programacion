@@ -54,7 +54,7 @@ public class menu {
                     leer.nextLine();
                     //Agregamos un leer.nextLine() para que limpie el buffer despues del leer.nextInt()
             } else{
-                System.out.println("Debe Ingresar una opcion valida");
+                System.out.println("Debe Ingresar una opcion numerica valida");
                 leer.nextLine();
                 continue;
             }
@@ -119,9 +119,17 @@ public class menu {
     }
     
     private void agregarProducto(){
+        int tipo;
+        do{
         System.out.println("\n--- Nuevo Producto ---");
         System.out.println("Tipo: 1. Juego | 2. Consola | 3. Accesorio");
-        int tipo = leer.nextInt(); leer.nextLine();
+        tipo = leer.nextInt(); leer.nextLine();
+
+            if (tipo < 1 || tipo > 3) {
+                System.out.println("Numero Invalido Ingrese nuevamente");
+            }
+            
+        }while (tipo <1 || tipo>3); //Un validador para la entrada de TIPO
 
         int id = tienda.getProductos() // 1. Trae la lista de productos guardados (List<Producto>)
                        .stream()        // 2. Abre un "flujo de datos" para procesar los productos uno por uno

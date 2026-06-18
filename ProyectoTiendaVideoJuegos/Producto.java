@@ -97,4 +97,13 @@ public abstract class Producto implements Serializable, IVendible {
         throw new StockInsuficienteException("No hay stock para alquilar el producto: " + this.titulo);
         }
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Producto producto = (Producto) o;
+        // Compara por el atributo que los hace únicos (ej. titulo)
+        return this.getTitulo().equalsIgnoreCase(producto.getTitulo());
+    }
 }
